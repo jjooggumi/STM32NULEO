@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000185ac  00000000  00000000  00013566  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000d012  00000000  00000000  0002bb12  2**0
+ 17 .debug_line   0000d015  00000000  00000000  0002bb12  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008c1b6  00000000  00000000  00038b24  2**0
+ 18 .debug_str    0008c1b6  00000000  00000000  00038b27  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000c4cda  2**0
+ 19 .comment      00000043  00000000  00000000  000c4cdd  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00003b0c  00000000  00000000  000c4d20  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -381,81 +381,84 @@ int main(void)
  8000308:	f7ff ff8a 	bl	8000220 <echo_l>
  800030c:	4603      	mov	r3, r0
  800030e:	80fb      	strh	r3, [r7, #6]
+	    HAL_Delay(1000);
+ 8000310:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
+ 8000314:	f000 fb9e 	bl	8000a54 <HAL_Delay>
 	    if( echo_l_time != 0)
- 8000310:	88fb      	ldrh	r3, [r7, #6]
- 8000312:	2b00      	cmp	r3, #0
- 8000314:	d014      	beq.n	8000340 <main+0x60>
+ 8000318:	88fb      	ldrh	r3, [r7, #6]
+ 800031a:	2b00      	cmp	r3, #0
+ 800031c:	d013      	beq.n	8000346 <main+0x66>
 	    {
 	        dist_l = (int)(17 * echo_l_time / 100);
- 8000316:	88fa      	ldrh	r2, [r7, #6]
- 8000318:	4613      	mov	r3, r2
- 800031a:	011b      	lsls	r3, r3, #4
- 800031c:	4413      	add	r3, r2
- 800031e:	4a20      	ldr	r2, [pc, #128]	@ (80003a0 <main+0xc0>)
- 8000320:	fb82 1203 	smull	r1, r2, r2, r3
- 8000324:	1152      	asrs	r2, r2, #5
- 8000326:	17db      	asrs	r3, r3, #31
- 8000328:	1ad3      	subs	r3, r2, r3
- 800032a:	80bb      	strh	r3, [r7, #4]
+ 800031e:	88fa      	ldrh	r2, [r7, #6]
+ 8000320:	4613      	mov	r3, r2
+ 8000322:	011b      	lsls	r3, r3, #4
+ 8000324:	4413      	add	r3, r2
+ 8000326:	4a1e      	ldr	r2, [pc, #120]	@ (80003a0 <main+0xc0>)
+ 8000328:	fb82 1203 	smull	r1, r2, r2, r3
+ 800032c:	1152      	asrs	r2, r2, #5
+ 800032e:	17db      	asrs	r3, r3, #31
+ 8000330:	1ad3      	subs	r3, r2, r3
+ 8000332:	80bb      	strh	r3, [r7, #4]
 	        printf("Distance_l = %d(mm)\n", dist_l);
- 800032c:	88bb      	ldrh	r3, [r7, #4]
- 800032e:	4619      	mov	r1, r3
- 8000330:	481c      	ldr	r0, [pc, #112]	@ (80003a4 <main+0xc4>)
- 8000332:	f002 f851 	bl	80023d8 <iprintf>
-	        HAL_Delay(1000);
- 8000336:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
- 800033a:	f000 fb8b 	bl	8000a54 <HAL_Delay>
- 800033e:	e006      	b.n	800034e <main+0x6e>
+ 8000334:	88bb      	ldrh	r3, [r7, #4]
+ 8000336:	4619      	mov	r1, r3
+ 8000338:	481a      	ldr	r0, [pc, #104]	@ (80003a4 <main+0xc4>)
+ 800033a:	f002 f84d 	bl	80023d8 <iprintf>
+	        HAL_Delay(1);
+ 800033e:	2001      	movs	r0, #1
+ 8000340:	f000 fb88 	bl	8000a54 <HAL_Delay>
+ 8000344:	e005      	b.n	8000352 <main+0x72>
 	    }
 	    else
 	    {
 	    	printf("Out of Range!@L\n");
- 8000340:	4819      	ldr	r0, [pc, #100]	@ (80003a8 <main+0xc8>)
- 8000342:	f002 f8b1 	bl	80024a8 <puts>
-	    	HAL_Delay(1000);
- 8000346:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
- 800034a:	f000 fb83 	bl	8000a54 <HAL_Delay>
+ 8000346:	4818      	ldr	r0, [pc, #96]	@ (80003a8 <main+0xc8>)
+ 8000348:	f002 f8ae 	bl	80024a8 <puts>
+	    	HAL_Delay(1);
+ 800034c:	2001      	movs	r0, #1
+ 800034e:	f000 fb81 	bl	8000a54 <HAL_Delay>
 	    }
 
 	    trig_r();
- 800034e:	f7ff ff51 	bl	80001f4 <trig_r>
+ 8000352:	f7ff ff4f 	bl	80001f4 <trig_r>
 	    echo_r_time = echo_r();
- 8000352:	f7ff ff95 	bl	8000280 <echo_r>
- 8000356:	4603      	mov	r3, r0
- 8000358:	807b      	strh	r3, [r7, #2]
+ 8000356:	f7ff ff93 	bl	8000280 <echo_r>
+ 800035a:	4603      	mov	r3, r0
+ 800035c:	807b      	strh	r3, [r7, #2]
 	    if( echo_r_time != 0)
- 800035a:	887b      	ldrh	r3, [r7, #2]
- 800035c:	2b00      	cmp	r3, #0
- 800035e:	d014      	beq.n	800038a <main+0xaa>
+ 800035e:	887b      	ldrh	r3, [r7, #2]
+ 8000360:	2b00      	cmp	r3, #0
+ 8000362:	d013      	beq.n	800038c <main+0xac>
 	    {
 	        dist_r = (int)(17 * echo_r_time / 100);
- 8000360:	887a      	ldrh	r2, [r7, #2]
- 8000362:	4613      	mov	r3, r2
- 8000364:	011b      	lsls	r3, r3, #4
- 8000366:	4413      	add	r3, r2
- 8000368:	4a0d      	ldr	r2, [pc, #52]	@ (80003a0 <main+0xc0>)
- 800036a:	fb82 1203 	smull	r1, r2, r2, r3
- 800036e:	1152      	asrs	r2, r2, #5
- 8000370:	17db      	asrs	r3, r3, #31
- 8000372:	1ad3      	subs	r3, r2, r3
- 8000374:	803b      	strh	r3, [r7, #0]
+ 8000364:	887a      	ldrh	r2, [r7, #2]
+ 8000366:	4613      	mov	r3, r2
+ 8000368:	011b      	lsls	r3, r3, #4
+ 800036a:	4413      	add	r3, r2
+ 800036c:	4a0c      	ldr	r2, [pc, #48]	@ (80003a0 <main+0xc0>)
+ 800036e:	fb82 1203 	smull	r1, r2, r2, r3
+ 8000372:	1152      	asrs	r2, r2, #5
+ 8000374:	17db      	asrs	r3, r3, #31
+ 8000376:	1ad3      	subs	r3, r2, r3
+ 8000378:	803b      	strh	r3, [r7, #0]
 	        printf("Distance_r = %d(mm)\n", dist_r);
- 8000376:	883b      	ldrh	r3, [r7, #0]
- 8000378:	4619      	mov	r1, r3
- 800037a:	480c      	ldr	r0, [pc, #48]	@ (80003ac <main+0xcc>)
- 800037c:	f002 f82c 	bl	80023d8 <iprintf>
-	        HAL_Delay(1000);
- 8000380:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
- 8000384:	f000 fb66 	bl	8000a54 <HAL_Delay>
- 8000388:	e7bc      	b.n	8000304 <main+0x24>
+ 800037a:	883b      	ldrh	r3, [r7, #0]
+ 800037c:	4619      	mov	r1, r3
+ 800037e:	480b      	ldr	r0, [pc, #44]	@ (80003ac <main+0xcc>)
+ 8000380:	f002 f82a 	bl	80023d8 <iprintf>
+	        HAL_Delay(1);
+ 8000384:	2001      	movs	r0, #1
+ 8000386:	f000 fb65 	bl	8000a54 <HAL_Delay>
+ 800038a:	e7bb      	b.n	8000304 <main+0x24>
 	    }
 	    else
 	    {
 	    	printf("Out of Range!@R\n");
- 800038a:	4809      	ldr	r0, [pc, #36]	@ (80003b0 <main+0xd0>)
- 800038c:	f002 f88c 	bl	80024a8 <puts>
-	    	HAL_Delay(1000);
- 8000390:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
+ 800038c:	4808      	ldr	r0, [pc, #32]	@ (80003b0 <main+0xd0>)
+ 800038e:	f002 f88b 	bl	80024a8 <puts>
+	    	HAL_Delay(1);
+ 8000392:	2001      	movs	r0, #1
  8000394:	f000 fb5e 	bl	8000a54 <HAL_Delay>
 	    trig_l();
  8000398:	e7b4      	b.n	8000304 <main+0x24>

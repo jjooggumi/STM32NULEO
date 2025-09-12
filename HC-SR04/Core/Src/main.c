@@ -7,8 +7,8 @@
   * @attention
   *
   * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.f
-  * test s
+  * All rights reserved.
+  *
   * This software is licensed under terms that can be found in the LICENSE file
   * in the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
@@ -126,7 +126,6 @@ long unsigned int echo_r(void)
 
 
 
-
 /* USER CODE END 0 */
 
 /**
@@ -184,16 +183,17 @@ int main(void)
 //	  HAL_Delay(100);
 	    trig_l();
 	    echo_l_time = echo_l();
+	    HAL_Delay(1000);
 	    if( echo_l_time != 0)
 	    {
 	        dist_l = (int)(17 * echo_l_time / 100);
 	        printf("Distance_l = %d(mm)\n", dist_l);
-	        HAL_Delay(1000);
+	        HAL_Delay(1);
 	    }
 	    else
 	    {
 	    	printf("Out of Range!@L\n");
-	    	HAL_Delay(1000);
+	    	HAL_Delay(1);
 	    }
 
 	    trig_r();
@@ -202,12 +202,12 @@ int main(void)
 	    {
 	        dist_r = (int)(17 * echo_r_time / 100);
 	        printf("Distance_r = %d(mm)\n", dist_r);
-	        HAL_Delay(1000);
+	        HAL_Delay(1);
 	    }
 	    else
 	    {
 	    	printf("Out of Range!@R\n");
-	    	HAL_Delay(1000);
+	    	HAL_Delay(1);
 	    }
 
     /* USER CODE END WHILE */
