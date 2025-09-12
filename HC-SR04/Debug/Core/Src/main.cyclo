@@ -1,0 +1,13 @@
+../Core/Src/main.c:70:1:__io_putchar	2
+../Core/Src/main.c:79:6:timer_start	1
+../Core/Src/main.c:84:6:delay_us	2
+../Core/Src/main.c:90:6:trig_l	1
+../Core/Src/main.c:96:6:trig_r	1
+../Core/Src/main.c:104:19:echo_l	5
+../Core/Src/main.c:115:19:echo_r	5
+../Core/Src/main.c:135:5:main	3
+../Core/Src/main.c:223:6:SystemClock_Config	3
+../Core/Src/main.c:262:13:MX_TIM1_Init	4
+../Core/Src/main.c:308:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:341:13:MX_GPIO_Init	1
+../Core/Src/main.c:409:6:Error_Handler	1
