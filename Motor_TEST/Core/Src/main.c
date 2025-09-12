@@ -57,7 +57,8 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t ch;
+uint32_t last_rx_tick = 0;
 #ifdef __GNUC__
 
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
@@ -131,7 +132,42 @@ void smartcar_stop(void)
 	  HAL_GPIO_WritePin(RBB_GPIO_Port, RBB_Pin, 0);
 }
 
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+//		  HAL_UART_Receive_IT(&huart2, &ch, 1);
+		  last_rx_tick = HAL_GetTick();
+		  if(ch == 'w')
+		  {
+			  printf("forward\n");
+			  smartcar_forward();
+		  }
+		  else if(ch == 's')
+		  {
+			  printf("backward\n");
+			  smartcar_backward();
+		  }
+		  else if(ch == 'q')
+		  {
+			  printf("stop\n");
+			  smartcar_stop();
+		  }
+		  else if(ch == 'd')
+		  {
+			  printf("right\n");
+			  smartcar_right();
+		  }
+		  else if(ch == 'a')
+		  {
+			  printf("left\n");
+			  smartcar_left();
+		  }
+		  else
+		  {
+			  printf("key error\n");
+			  smartcar_stop();
+		  }
+	      HAL_UART_Receive_IT(&huart2, &ch, 1);
+}
 /* USER CODE END 0 */
 
 /**
@@ -165,44 +201,50 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t ch;
+//  uint8_t ch;
+	HAL_UART_Receive_IT(&huart2, &ch, 1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
-	  if(ch == 'w')
-	  {
-		  printf("forward\n");
-		  smartcar_forward();
-	  }
-	  else if(ch == 's')
-	  {
-		  printf("backward\n");
-		  smartcar_backward();
-	  }
-	  else if(ch == 'q')
-	  {
-		  printf("stop\n");
-		  smartcar_stop();
-	  }
-	  else if(ch == 'd')
-	  {
-		  printf("right\n");
-		  smartcar_right();
-	  }
-	  else if(ch == 'a')
-	  {
-		  printf("left\n");
-		  smartcar_left();
-	  }
-	  else
-	  {
-		  printf("key error\n");
-		  smartcar_stop();
-	  }
+	  if (HAL_GetTick() - last_rx_tick > 100)
+	  	      {
+	  	          smartcar_stop();
+	  	      }
+//	  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
+//	  if(ch == 'w')
+//	  {
+//		  printf("forward\n");
+//		  smartcar_forward();
+//	  }
+//	  else if(ch == 's')
+//	  {
+//		  printf("backward\n");
+//		  smartcar_backward();
+//	  }
+//	  else if(ch == 'q')
+//	  {
+//		  printf("stop\n");
+//		  smartcar_stop();
+//	  }
+//	  else if(ch == 'd')
+//	  {
+//		  printf("right\n");
+//		  smartcar_right();
+//	  }
+//	  else if(ch == 'a')
+//	  {
+//		  printf("left\n");
+//		  smartcar_left();
+//	  }
+//	  else
+//	  {
+//		  printf("key error\n");
+//		  smartcar_stop();
+//	  }
 
 //	  smartcar_forward();
 //	  HAL_Delay(5000);
