@@ -181,9 +181,9 @@ int main(void)
 //	  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
 //	  printf("%c\n",ch);
 //	  HAL_Delay(100);
+	    HAL_Delay(1000);
 	    trig_l();
 	    echo_l_time = echo_l();
-	    HAL_Delay(1000);
 	    if( echo_l_time != 0)
 	    {
 	        dist_l = (int)(17 * echo_l_time / 100);

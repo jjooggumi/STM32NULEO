@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000185ac  00000000  00000000  00013566  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000d015  00000000  00000000  0002bb12  2**0
+ 17 .debug_line   0000d013  00000000  00000000  0002bb12  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008c1b6  00000000  00000000  00038b27  2**0
+ 18 .debug_str    0008c1b6  00000000  00000000  00038b25  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000c4cdd  2**0
+ 19 .comment      00000043  00000000  00000000  000c4cdb  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00003b0c  00000000  00000000  000c4d20  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -375,15 +375,15 @@ int main(void)
 //	  HAL_UART_Receive(&huart2, &ch, 1, HAL_MAX_DELAY);
 //	  printf("%c\n",ch);
 //	  HAL_Delay(100);
-	    trig_l();
- 8000304:	f7ff ff62 	bl	80001cc <trig_l>
-	    echo_l_time = echo_l();
- 8000308:	f7ff ff8a 	bl	8000220 <echo_l>
- 800030c:	4603      	mov	r3, r0
- 800030e:	80fb      	strh	r3, [r7, #6]
 	    HAL_Delay(1000);
- 8000310:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
- 8000314:	f000 fb9e 	bl	8000a54 <HAL_Delay>
+ 8000304:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
+ 8000308:	f000 fba4 	bl	8000a54 <HAL_Delay>
+	    trig_l();
+ 800030c:	f7ff ff5e 	bl	80001cc <trig_l>
+	    echo_l_time = echo_l();
+ 8000310:	f7ff ff86 	bl	8000220 <echo_l>
+ 8000314:	4603      	mov	r3, r0
+ 8000316:	80fb      	strh	r3, [r7, #6]
 	    if( echo_l_time != 0)
  8000318:	88fb      	ldrh	r3, [r7, #6]
  800031a:	2b00      	cmp	r3, #0
@@ -460,7 +460,7 @@ int main(void)
 	    	HAL_Delay(1);
  8000392:	2001      	movs	r0, #1
  8000394:	f000 fb5e 	bl	8000a54 <HAL_Delay>
-	    trig_l();
+	    HAL_Delay(1000);
  8000398:	e7b4      	b.n	8000304 <main+0x24>
  800039a:	bf00      	nop
  800039c:	0800319c 	.word	0x0800319c
