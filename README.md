@@ -24,7 +24,13 @@
       - Continuous Conversion Mode = Enable, 온도 센서 신호 => 온도 측정 값 (연속으로 AD 변환 동작)
       - Sampling Time = 13.5 cycles
   - Clock Configuration 설정
-    - 
+    - ADC clock = 8MHz
+  - 소스코드 작성
+    1. printf 시리얼 디버깅 기능 구현
+      - 
+    2. ADC Calibration & 시작
+
+    3. ADC 결과 읽어서 출력
 ## 2. EXTI
 
 ## 3. HC-SR04
