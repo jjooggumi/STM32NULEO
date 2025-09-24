@@ -1,7 +1,5 @@
 # STM32 LED Blink
 
-Peripheral 제어 예제1)
-
 GPIO를 제어하여,  
 LD2 및 TEST 핀을 100ms 간격으로 점멸 동작 수행
 
