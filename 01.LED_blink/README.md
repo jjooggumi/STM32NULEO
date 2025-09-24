@@ -200,6 +200,8 @@ HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 
 -> 실제로는 `GPIOx->BSRR`(Bit Set Reset Register)라는 레지스터에 `1`을 씀
 
+---
+
 2. 레지스터 Write
 - HAL 함수 안쪽 코드
 ```c
@@ -219,7 +221,55 @@ void HAL_GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
   }
 }
 ```
-- 메모리 주소에 값 1을 써서 하드웨어 플립플롭을 토글
+#### - 함수 원형과 인자
+```c
+void HAL_GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
+
+```
+예시 그림)
+
+<img width="500" height="100" alt="image" src="https://github.com/user-attachments/assets/f085c68d-c6dc-43b7-a18e-0d925d91af15" />
+
+
+- `GPIOx`: 포트 베이스 주소(예:`GPIOA`, `GPIOB`), 내부적으로는 메모리 맵 레지스터 묶음을 가리키는 포인터
+- `GPIO_Pin`: 비트마스크(예: GPIO_PIN_5), 번호가 아니라 해당 비트가 1인 값
+- `PinState`: 0 또는 1
+
+#### - 파라미터 체크
+```c
+assert_param(IS_GPIO_PIN(GPIO_Pin));
+assert_param(IS_GPIO_PIN_ACTION(PinState));
+```
+- `USE_FULL_ASSERT`가 켜진 디버그 빌드에서만 유효. 잘못된 핀 마스크/상태면 assert로 중단.
+- 릴리즈 빌드에선 제거되어 실행 오버헤드가 없음.
+
+#### - 핵심: BSRR(비트 Set/Reset) 레지스터 쓰기
+```c
+if (PinState != GPIO_PIN_RESET) {
+    GPIOx->BSRR = GPIO_Pin;
+} else {
+    GPIOx->BSRR = (uint32_t)GPIO_Pin << 16u;
+}
+```
+- BSRR
+
+    : 32비트 write-only 레지스터
+
+    : 하위 16비트 [15:0]: 해당 비트에 **1을 쓰면 그 핀을 ‘High(SET)’**로 만듦
+
+    : 상위 16비트 [31:16]: 해당 비트에 **1을 쓰면 그 핀을 ‘Low(RESET)’**로 만듦
+
+    : 0을 쓰면 무시함(원래 상태 유지)
+
+    : 읽기용이 아니라 쓰기 트리거 성격임
+
+- <<16 의미
+  
+    : 같은 핀 인덱스를 상위 16비트 영역으로 옮겨서 “RESET” 명령을 주기 위해
+
+    : 예: GPIO_PIN_5(0b000…0010_0000)를 RESET하려면 1 << (5 + 16)을 BSRR에 씀
+
+---
 
 3. 하드웨어 반응
    - SoC 내부에서 APB 버스를 통해 GPIO IP로 데이터 전달
