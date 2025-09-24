@@ -1,5 +1,7 @@
 # STM32 LED Blink
 
+Peripheral 제어 예제1)
+
 GPIO를 제어하여,  
 LD2 및 TEST 핀을 100ms 간격으로 점멸 동작 수행
 
@@ -186,6 +188,42 @@ void Error_Handler(void)
 2. Build 버튼으로 컴파일
 3. 보드에 펌웨어 업로드
 4. LD2 및 TEST 핀이 0.1초 간격으로 점멸하는지 확인
+
+---
+## MCU 하드웨어 제어 방식 이해
+### - HAL → 레지스터 → GPIO 출력
+1. HAL 라이브러리 호출
+```c
+HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+```
+-> 이 한 줄이 추상화된 API
+
+-> 실제로는 `GPIOx->BSRR`(Bit Set Reset Register)라는 레지스터에 `1`을 씀
+
+2. 레지스터 Write
+- HAL 함수 안쪽 코드
+```c
+void HAL_GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
+{
+  /* Check the parameters */
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN_ACTION(PinState));
+
+  if (PinState != GPIO_PIN_RESET)
+  {
+    GPIOx->BSRR = GPIO_Pin;
+  }
+  else
+  {
+    GPIOx->BSRR = (uint32_t)GPIO_Pin << 16u;
+  }
+}
+```
+- 메모리 주소에 값 1을 써서 하드웨어 플립플롭을 토글
+
+3. 하드웨어 반응
+   - SoC 내부에서 APB 버스를 통해 GPIO IP로 데이터 전달
+   - GPIO 컨트롤러 → Output Driver → 실제 핀(PAD) High/Low 전환
 
 
 
