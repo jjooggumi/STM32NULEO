@@ -5,14 +5,14 @@
 : 김남수,이진형, 『STM32CubeIDE를 이용한 STM32 따라하기』, 출판지: 북랩
 
 ## 목차
-1. LED_blink
-2. USART_printf
-3. EXTI
-4. TIM_TimBase
-5. ADC_TemperatureSensor
-6. Motor_TEST
-7. HC_SR04
-8. mario_piezo
-9. ServoMotor
-10. DHT11
-11. CLCD
+### 1. LED_blink
+### 2. USART_printf
+### 3. EXTI
+### 4. TIM_TimBase
+### 5. ADC_TemperatureSensor
+### 6. Motor_TEST
+### 7. HC_SR04
+### 8. mario_piezo
+### 9. ServoMotor
+### 10. DHT11
+### 11. CLCD
