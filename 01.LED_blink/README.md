@@ -224,10 +224,6 @@ void HAL_GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
 void HAL_GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
 
 ```
-예시 그림)
-
-<img width="500" height="100" alt="image" src="https://github.com/user-attachments/assets/f085c68d-c6dc-43b7-a18e-0d925d91af15" />
-
 
 - `GPIOx`: 포트 베이스 주소(예:`GPIOA`, `GPIOB`), 내부적으로는 메모리 맵 레지스터 묶음을 가리키는 포인터
 - `GPIO_Pin`: 비트마스크(예: GPIO_PIN_5), 번호가 아니라 해당 비트가 1인 값
@@ -250,12 +246,14 @@ if (PinState != GPIO_PIN_RESET) {
 }
 ```
 - BSRR
+<참고>STM32 reference manual
+<img width="750" height="250" alt="image" src="https://github.com/user-attachments/assets/f274b4c0-763f-4f94-a99c-bd3dbc4fffd8" />
 
     : 32비트 write-only 레지스터
 
-    : 하위 16비트 [15:0]: 해당 비트에 **1을 쓰면 그 핀을 ‘High(SET)’**로 만듦
+    : 하위 16비트 [15:0]: 해당 비트에 1을 쓰면 그 핀을 ‘High(SET)'로 만듦
 
-    : 상위 16비트 [31:16]: 해당 비트에 **1을 쓰면 그 핀을 ‘Low(RESET)’**로 만듦
+    : 상위 16비트 [31:16]: 해당 비트에 1을 쓰면 그 핀을 ‘Low(RESET)’로 만듦
 
     : 0을 쓰면 무시함(원래 상태 유지)
 
